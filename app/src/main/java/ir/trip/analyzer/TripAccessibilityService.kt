@@ -21,6 +21,19 @@ class TripAccessibilityService : AccessibilityService() {
 
         Log.d("TripAnalyzer", "APP=$pkg TYPE=${event.eventType}")
 
+    if (pkg.lowercase().contains("snapp")) {
+        takeScreenshot(
+            { result ->
+                Toast.makeText(
+                    this,
+                    "SCREENSHOT OK",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            null
+        )
+    }
+
         Toast.makeText(
             this,
             "EVENT: $pkg",
