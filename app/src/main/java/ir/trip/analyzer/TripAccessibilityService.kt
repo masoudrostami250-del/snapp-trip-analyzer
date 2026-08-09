@@ -12,6 +12,7 @@ class TripAccessibilityService : AccessibilityService() {
 
     private var last = ""
     private var lastDiagnostic = ""
+    private var eventShown = false
 
     private val minFare = 55000.0
     private val minPerKm = 20000.0
@@ -47,17 +48,44 @@ class TripAccessibilityService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        if (!eventShown) {
+            eventShown = true
+            Toast.makeText(this, "آنالیز سفر: رویداد صفحه اسنپ دریافت شد", Toast.LENGTH_LONG).show()
+        }
         analyzeCurrentScreen()
     }
 
     private fun analyzeCurrentScreen() {
-        val root = rootInActiveWindow ?: return
+        val root = rootInActiveWindow
+
+    if (root == null) {
+        if (lastDiagnostic != "ROOT_NULL") {
+            lastDiagnostic = "ROOT_NULL"
+            Toast.makeText(
+                this,
+                "رویداد آمد ولی صفحه قابل خواندن نیست",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+        return
+    }
 
         val out = StringBuilder()
         collect(root, out)
 
-        val rawText = out.toString().trim()
-        if (rawText.isEmpty()) return
+    val rawText = out.toString().trim()
+
+    if (rawText.isEmpty()) {
+        if (lastDiagnostic != "TEXT_EMPTY") {
+            lastDiagnostic = "TEXT_EMPTY"
+            Toast.makeText(
+                this,
+                "صفحه پیدا شد ولی متن قابل خواندن ندارد",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+        return
+    }
 
         val text = digits(rawText)
             .replace("٬", ",")
