@@ -21,6 +21,12 @@ class TripAccessibilityService : AccessibilityService() {
 
         Log.d("TripAnalyzer", "APP=$pkg TYPE=${event.eventType}")
 
+        Toast.makeText(
+            this,
+            "EVENT: $pkg",
+            Toast.LENGTH_SHORT
+        ).show()
+
         val root = rootInActiveWindow ?: return
 
         val text = StringBuilder()
