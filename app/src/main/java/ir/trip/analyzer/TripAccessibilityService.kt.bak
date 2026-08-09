@@ -51,28 +51,7 @@ class TripAccessibilityService : AccessibilityService() {
     }
 
     private fun analyzeCurrentScreen() {
-        val root = event.source
-
-        android.util.Log.d(
-            "TripAnalyzer",
-            "EVENT package=${event.packageName} type=${event.eventType} source=${root != null}"
-        )
-
-        if (root != null) {
-            dumpNode(root, 0)
-        }
-        if (root == null) {
-            android.util.Log.d(
-                "TripAnalyzer",
-                "ACCESSIBILITY NODE NULL package=${event.packageName}"
-            )
-            return
-        }
-
-        android.util.Log.d(
-            "TripAnalyzer",
-            "ACCESSIBILITY NODE OK package=${event.packageName}"
-        )
+        val root = rootInActiveWindow
 
         if (root == null) {
             Toast.makeText(
@@ -235,21 +214,4 @@ class TripAccessibilityService : AccessibilityService() {
         handler.removeCallbacks(scanner)
         super.onDestroy()
     }
-
-
-private fun dumpNode(node: AccessibilityNodeInfo, level: Int) {
-    if (level > 5) return
-
-    android.util.Log.d(
-        "TripAnalyzer",
-        "NODE level=$level text=${node.text} desc=${node.contentDescription} class=${node.className}"
-    )
-
-    for (i in 0 until node.childCount) {
-        node.getChild(i)?.let {
-            dumpNode(it, level + 1)
-        }
-    }
-}
-
 }
