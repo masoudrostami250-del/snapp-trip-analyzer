@@ -39,7 +39,7 @@ class TripAccessibilityService : AccessibilityService() {
 
         Toast.makeText(
             this,
-            "آنالیز سفر: سرویس فعال شد",
+            "آنالیز سفر نسخه تحلیل ۱: سرویس فعال شد",
             Toast.LENGTH_LONG
         ).show()
 
