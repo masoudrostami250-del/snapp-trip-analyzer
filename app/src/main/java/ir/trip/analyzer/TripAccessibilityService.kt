@@ -51,7 +51,7 @@ class TripAccessibilityService : AccessibilityService() {
     }
 
     private fun analyzeCurrentScreen() {
-        val root = event.source
+        val root: AccessibilityNodeInfo? = event.source
 
         android.util.Log.d(
             "TripAnalyzer",
